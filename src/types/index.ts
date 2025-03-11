@@ -1,7 +1,6 @@
-
 export type TestCaseType = 'Functional' | 'Performance' | 'Security' | 'Accessibility';
 
-export type TestCaseStatus = 'Draft' | 'Reviewed' | 'Approved';
+export type TestCaseStatus = 'Draft' | 'Move to Product Review' | 'Product Comments' | 'Accepted by Product';
 
 export interface TestStep {
   stepNumber: number;
@@ -11,7 +10,7 @@ export interface TestStep {
 
 export interface TestCase {
   id: string;
-  projectId?: string; // New field to link test cases to projects
+  projectId?: string;
   summary: string;
   linkedUserStories: string[]; // YouTrack IDs
   type: TestCaseType;
@@ -21,20 +20,13 @@ export interface TestCase {
   updatedAt: Date;
 }
 
-export interface UploadFormData {
-  prdFile?: File | null;
-  transcriptFile?: File | null;
-  youtrackIds: string;
-  projectId?: string; // New field to link uploads to projects
-}
-
-// New Project types
 export interface Document {
   id: string;
   name: string;
   type: 'PRD' | 'Transcript';
   uploadDate: Date;
   filePath?: string;
+  content?: string; // Added for document preview
 }
 
 export interface Project {
@@ -42,6 +34,7 @@ export interface Project {
   name: string;
   description: string;
   documents: Document[];
+  youtrackStories?: string[]; // Added for YouTrack stories
   createdAt: Date;
   updatedAt: Date;
 }
@@ -50,7 +43,7 @@ export interface Project {
 export const mockTestCases: TestCase[] = [
   {
     id: 'tc-001',
-    projectId: 'proj-001', // Link to first project
+    projectId: 'proj-001',
     summary: "Verify user will see 'Earn up to N neucoins' on neucoins strip when user has 'No referrals'",
     linkedUserStories: ['YT-123', 'YT-456'],
     type: 'Functional',
@@ -66,11 +59,11 @@ export const mockTestCases: TestCase[] = [
   },
   {
     id: 'tc-002',
-    projectId: 'proj-001', // Link to first project
+    projectId: 'proj-001',
     summary: "Verify file upload functionality accepts PDF documents",
     linkedUserStories: ['YT-123'],
     type: 'Functional',
-    status: 'Reviewed',
+    status: 'Draft',
     steps: [
       { stepNumber: 1, action: "Navigate to file upload section", expectedResult: "User sees file upload interface" },
       { stepNumber: 2, action: "Select a PDF file from local system", expectedResult: "File is selected and ready for upload" },
@@ -139,15 +132,18 @@ export const mockProjects: Project[] = [
         id: 'doc-001',
         name: 'NeucoinsPay PRD v1.2.pdf',
         type: 'PRD',
-        uploadDate: new Date(2023, 9, 15)
+        uploadDate: new Date(2023, 9, 15),
+        content: "This is a sample PRD document content for NeucoinsPay integration. It would contain requirements, specifications, and design details."
       },
       {
         id: 'doc-002',
         name: 'Integration Planning Call - Oct 12.txt',
         type: 'Transcript',
-        uploadDate: new Date(2023, 9, 12)
+        uploadDate: new Date(2023, 9, 12),
+        content: "Meeting Transcript\n\nDate: Oct 12, 2023\nAttendees: Product Manager, Engineering Lead, QA Lead\n\nPM: Let's discuss the integration plan for NeucoinsPay.\nEng: We'll need to create APIs for the loyalty program integration.\nQA: I'll prepare test cases for the payment and loyalty features."
       }
     ],
+    youtrackStories: ['YT-123', 'YT-456', 'YT-789'],
     createdAt: new Date(2023, 9, 10),
     updatedAt: new Date(2023, 9, 15)
   },
