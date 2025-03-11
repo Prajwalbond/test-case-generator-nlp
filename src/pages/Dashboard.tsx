@@ -19,7 +19,7 @@ const Dashboard: React.FC = () => {
   const [filterType, setFilterType] = useState<string>('All');
   const [filterStatus, setFilterStatus] = useState<string>('All');
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterUserStory, setFilterUserStory] = useState('');
+  const [filterUserStory, setFilterUserStory] = useState('all');
 
   // Get all unique YouTrack IDs from all test cases
   const allUserStories = Array.from(
@@ -41,7 +41,7 @@ const Dashboard: React.FC = () => {
     }
     
     // Filter by user story
-    if (filterUserStory && !tc.linkedUserStories.includes(filterUserStory)) {
+    if (filterUserStory !== 'all' && !tc.linkedUserStories.includes(filterUserStory)) {
       return false;
     }
     
@@ -217,7 +217,7 @@ const Dashboard: React.FC = () => {
                       <SelectValue placeholder="User Story" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">All User Stories</SelectItem>
+                      <SelectItem value="all">All User Stories</SelectItem>
                       {allUserStories.map((id) => (
                         <SelectItem key={id} value={id}>
                           {id}
@@ -230,7 +230,7 @@ const Dashboard: React.FC = () => {
                 <Button variant="ghost" size="icon" onClick={() => {
                   setFilterType('All');
                   setFilterStatus('All');
-                  setFilterUserStory('');
+                  setFilterUserStory('all');
                   setSearchTerm('');
                 }}>
                   <RefreshCw className="h-4 w-4" />
