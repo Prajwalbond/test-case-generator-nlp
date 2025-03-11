@@ -1,6 +1,6 @@
 
 import React, { createContext, useContext, useState } from 'react';
-import { TestCase } from '../types';
+import { TestCase, mockTestCases } from '../types';
 
 interface TestCaseContextType {
   testCases: TestCase[];
@@ -25,7 +25,8 @@ export const useTestCases = () => {
 };
 
 export const TestCaseProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [testCases, setTestCases] = useState<TestCase[]>([]);
+  // Initialize with mock data
+  const [testCases, setTestCases] = useState<TestCase[]>(mockTestCases);
   const [selectedTestCases, setSelectedTestCases] = useState<string[]>([]);
 
   const addTestCases = (newTestCases: TestCase[]) => {
