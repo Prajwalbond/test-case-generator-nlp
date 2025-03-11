@@ -11,6 +11,7 @@ export interface TestStep {
 
 export interface TestCase {
   id: string;
+  projectId?: string; // New field to link test cases to projects
   summary: string;
   linkedUserStories: string[]; // YouTrack IDs
   type: TestCaseType;
@@ -24,12 +25,32 @@ export interface UploadFormData {
   prdFile?: File | null;
   transcriptFile?: File | null;
   youtrackIds: string;
+  projectId?: string; // New field to link uploads to projects
+}
+
+// New Project types
+export interface Document {
+  id: string;
+  name: string;
+  type: 'PRD' | 'Transcript';
+  uploadDate: Date;
+  filePath?: string;
+}
+
+export interface Project {
+  id: string;
+  name: string;
+  description: string;
+  documents: Document[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 // Mock data for initial test cases
 export const mockTestCases: TestCase[] = [
   {
     id: 'tc-001',
+    projectId: 'proj-001', // Link to first project
     summary: "Verify user will see 'Earn up to N neucoins' on neucoins strip when user has 'No referrals'",
     linkedUserStories: ['YT-123', 'YT-456'],
     type: 'Functional',
@@ -45,6 +66,7 @@ export const mockTestCases: TestCase[] = [
   },
   {
     id: 'tc-002',
+    projectId: 'proj-001', // Link to first project
     summary: "Verify file upload functionality accepts PDF documents",
     linkedUserStories: ['YT-123'],
     type: 'Functional',
@@ -60,6 +82,7 @@ export const mockTestCases: TestCase[] = [
   },
   {
     id: 'tc-003',
+    projectId: 'proj-002', // Link to second project
     summary: "Verify system response time when loading user dashboard with 1000+ records",
     linkedUserStories: ['YT-789'],
     type: 'Performance',
@@ -75,6 +98,7 @@ export const mockTestCases: TestCase[] = [
   },
   {
     id: 'tc-004',
+    projectId: 'proj-002', // Link to second project
     summary: "Verify system prevents unauthorized access to admin functions",
     linkedUserStories: ['YT-456', 'YT-789'],
     type: 'Security',
@@ -89,6 +113,7 @@ export const mockTestCases: TestCase[] = [
   },
   {
     id: 'tc-005',
+    projectId: 'proj-003', // Link to third project
     summary: "Verify all form elements have proper ARIA labels for screen readers",
     linkedUserStories: ['YT-456'],
     type: 'Accessibility',
@@ -100,5 +125,66 @@ export const mockTestCases: TestCase[] = [
     ],
     createdAt: new Date(),
     updatedAt: new Date()
+  }
+];
+
+// Mock data for projects
+export const mockProjects: Project[] = [
+  {
+    id: 'proj-001',
+    name: 'NeucoinsPay Integration',
+    description: 'Loyalty program integration with payment gateway',
+    documents: [
+      {
+        id: 'doc-001',
+        name: 'NeucoinsPay PRD v1.2.pdf',
+        type: 'PRD',
+        uploadDate: new Date(2023, 9, 15)
+      },
+      {
+        id: 'doc-002',
+        name: 'Integration Planning Call - Oct 12.txt',
+        type: 'Transcript',
+        uploadDate: new Date(2023, 9, 12)
+      }
+    ],
+    createdAt: new Date(2023, 9, 10),
+    updatedAt: new Date(2023, 9, 15)
+  },
+  {
+    id: 'proj-002',
+    name: 'Admin Dashboard Redesign',
+    description: 'Performance and security improvements for admin dashboard',
+    documents: [
+      {
+        id: 'doc-003',
+        name: 'Admin Dashboard PRD.pdf',
+        type: 'PRD',
+        uploadDate: new Date(2023, 8, 5)
+      }
+    ],
+    createdAt: new Date(2023, 8, 1),
+    updatedAt: new Date(2023, 8, 5)
+  },
+  {
+    id: 'proj-003',
+    name: 'Accessibility Compliance',
+    description: 'Ensuring WCAG 2.1 AA compliance across all user interfaces',
+    documents: [
+      {
+        id: 'doc-004',
+        name: 'Accessibility Requirements.pdf',
+        type: 'PRD',
+        uploadDate: new Date(2023, 7, 20)
+      },
+      {
+        id: 'doc-005',
+        name: 'Accessibility Planning Meeting.txt',
+        type: 'Transcript',
+        uploadDate: new Date(2023, 7, 15)
+      }
+    ],
+    createdAt: new Date(2023, 7, 10),
+    updatedAt: new Date(2023, 7, 20)
   }
 ];

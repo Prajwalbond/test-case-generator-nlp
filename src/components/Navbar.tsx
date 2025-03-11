@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
-import { Braces, FileText, Home, List } from 'lucide-react';
+import { Braces, FileText, Folder, Home, List } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   return (
@@ -20,6 +20,10 @@ const Navbar: React.FC = () => {
               <Link to="/" className="border-transparent text-gray-500 hover:border-teal-500 hover:text-teal-700 dark:text-gray-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                 <Home className="mr-2 h-4 w-4" />
                 Home
+              </Link>
+              <Link to="/projects" className="border-transparent text-gray-500 hover:border-teal-500 hover:text-teal-700 dark:text-gray-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                <Folder className="mr-2 h-4 w-4" />
+                Projects
               </Link>
               <Link to="/upload" className="border-transparent text-gray-500 hover:border-teal-500 hover:text-teal-700 dark:text-gray-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                 <FileText className="mr-2 h-4 w-4" />
