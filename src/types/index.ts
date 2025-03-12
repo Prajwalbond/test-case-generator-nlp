@@ -1,7 +1,7 @@
 
 export type TestCaseType = 'Functional' | 'Performance' | 'Security' | 'Accessibility';
 
-export type TestCaseStatus = 'Draft' | 'Move to Product Review' | 'Product Comments' | 'Accepted by Product';
+export type TestCaseStatus = 'Draft' | 'Approved';
 
 export interface TestStep {
   stepNumber: number;

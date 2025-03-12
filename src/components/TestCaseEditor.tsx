@@ -159,9 +159,7 @@ const TestCaseEditor: React.FC<TestCaseEditorProps> = ({ testCase, isOpen, onClo
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Draft">Draft</SelectItem>
-                  <SelectItem value="Move to Product Review">Move to Product Review</SelectItem>
-                  <SelectItem value="Product Comments">Product Comments</SelectItem>
-                  <SelectItem value="Accepted by Product">Accepted by Product</SelectItem>
+                  <SelectItem value="Approved">Approved</SelectItem>
                 </SelectContent>
               </Select>
             </div>

@@ -9,7 +9,7 @@ import { TestCase } from '@/types';
 import { Separator } from '@/components/ui/separator';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { ChevronDown, ChevronUp, Edit, Save, Trash, X } from 'lucide-react';
+import { Edit, Save, Trash, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import TestCaseEditor from './TestCaseEditor';
 
@@ -20,7 +20,6 @@ interface TestCaseDetailProps {
 const TestCaseDetail: React.FC<TestCaseDetailProps> = ({ testCase }) => {
   const { updateTestCase, deleteTestCase, toggleTestCaseSelection, selectedTestCases } = useTestCases();
   const { toast } = useToast();
-  const [showSteps, setShowSteps] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   
@@ -67,11 +66,7 @@ const TestCaseDetail: React.FC<TestCaseDetailProps> = ({ testCase }) => {
     switch (status) {
       case 'Draft':
         return 'bg-yellow-100 text-yellow-800 border-yellow-300';
-      case 'Move to Product Review':
-        return 'bg-blue-100 text-blue-800 border-blue-300';
-      case 'Product Comments':
-        return 'bg-purple-100 text-purple-800 border-purple-300';
-      case 'Accepted by Product':
+      case 'Approved':
         return 'bg-green-100 text-green-800 border-green-300';
       default:
         return 'bg-gray-100 text-gray-800 border-gray-300';
@@ -107,7 +102,7 @@ const TestCaseDetail: React.FC<TestCaseDetailProps> = ({ testCase }) => {
                 {testCase.type}
               </Badge>
               <Select defaultValue={testCase.status} onValueChange={handleStatusChange}>
-                <SelectTrigger className="w-[180px] h-7">
+                <SelectTrigger className="w-[150px] h-7">
                   <SelectValue>
                     <span className={`px-2 py-0.5 rounded-full text-xs ${getStatusColor(testCase.status)}`}>
                       {testCase.status}
@@ -116,9 +111,7 @@ const TestCaseDetail: React.FC<TestCaseDetailProps> = ({ testCase }) => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Draft">Draft</SelectItem>
-                  <SelectItem value="Move to Product Review">Move to Product Review</SelectItem>
-                  <SelectItem value="Product Comments">Product Comments</SelectItem>
-                  <SelectItem value="Accepted by Product">Accepted by Product</SelectItem>
+                  <SelectItem value="Approved">Approved</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -126,47 +119,27 @@ const TestCaseDetail: React.FC<TestCaseDetailProps> = ({ testCase }) => {
         </CardHeader>
         
         <CardContent>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="p-0 h-8 mb-2"
-            onClick={() => setShowSteps(!showSteps)}
-          >
-            {showSteps ? (
-              <>
-                <ChevronUp className="h-4 w-4 mr-1" />
-                Hide Steps
-              </>
-            ) : (
-              <>
-                <ChevronDown className="h-4 w-4 mr-1" />
-                Show Steps ({testCase.steps.length})
-              </>
-            )}
-          </Button>
-          
-          {showSteps && (
-            <div className="mt-2 border rounded-md p-4 bg-gray-50 dark:bg-gray-900">
-              <table className="w-full text-left">
-                <thead>
-                  <tr className="border-b">
-                    <th className="pb-2 w-16 text-gray-500 text-sm font-medium">Step</th>
-                    <th className="pb-2 w-1/2 text-gray-500 text-sm font-medium">Action</th>
-                    <th className="pb-2 text-gray-500 text-sm font-medium">Expected Result</th>
+          {/* Test Steps - Always visible now */}
+          <div className="mt-2 border rounded-md p-4 bg-gray-50 dark:bg-gray-900">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="border-b">
+                  <th className="pb-2 w-16 text-gray-500 text-sm font-medium">Step</th>
+                  <th className="pb-2 w-1/2 text-gray-500 text-sm font-medium">Action</th>
+                  <th className="pb-2 text-gray-500 text-sm font-medium">Expected Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                {testCase.steps.map((step) => (
+                  <tr key={step.stepNumber} className="border-b last:border-0">
+                    <td className="py-2 text-gray-500">{step.stepNumber}</td>
+                    <td className="py-2">{step.action}</td>
+                    <td className="py-2">{step.expectedResult}</td>
                   </tr>
-                </thead>
-                <tbody>
-                  {testCase.steps.map((step) => (
-                    <tr key={step.stepNumber} className="border-b last:border-0">
-                      <td className="py-2 text-gray-500">{step.stepNumber}</td>
-                      <td className="py-2">{step.action}</td>
-                      <td className="py-2">{step.expectedResult}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+                ))}
+              </tbody>
+            </table>
+          </div>
         </CardContent>
         
         <CardFooter className="flex justify-between pt-1">

@@ -38,9 +38,9 @@ const TestCaseManager: React.FC<TestCaseManagerProps> = ({ projectId }) => {
     Accessibility: filteredTestCases.filter(tc => tc.type === 'Accessibility')
   };
   
-  const anyNotAccepted = selectedTestCases.some(id => {
+  const anyNotApproved = selectedTestCases.some(id => {
     const tc = testCases.find(t => t.id === id);
-    return tc && tc.status !== 'Accepted by Product';
+    return tc && tc.status !== 'Approved';
   });
   
   const handleDownloadCSV = () => {
@@ -53,7 +53,7 @@ const TestCaseManager: React.FC<TestCaseManagerProps> = ({ projectId }) => {
       return;
     }
     
-    if (anyNotAccepted) {
+    if (anyNotApproved) {
       setIsDownloadDialogOpen(true);
       return;
     }
@@ -193,9 +193,9 @@ const TestCaseManager: React.FC<TestCaseManagerProps> = ({ projectId }) => {
           <AlertDialogHeader>
             <AlertDialogTitle>Download Restrictions</AlertDialogTitle>
             <AlertDialogDescription>
-              Some of your selected test cases are not in the "Accepted by Product" status.
-              Only test cases with "Accepted by Product" status can be downloaded.
-              Please update the status of all selected test cases or select only "Accepted by Product" test cases.
+              Some of your selected test cases are not in the "Approved" status.
+              Only test cases with "Approved" status can be downloaded.
+              Please update the status of all selected test cases or select only "Approved" test cases.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
