@@ -1,3 +1,4 @@
+
 export type TestCaseType = 'Functional' | 'Performance' | 'Security' | 'Accessibility';
 
 export type TestCaseStatus = 'Draft' | 'Move to Product Review' | 'Product Comments' | 'Accepted by Product';
@@ -37,6 +38,13 @@ export interface Project {
   youtrackStories?: string[]; // Added for YouTrack stories
   createdAt: Date;
   updatedAt: Date;
+}
+
+// Interface for file upload form data
+export interface UploadFormData {
+  prdFile: File | null;
+  transcriptFile: File | null;
+  youtrackIds: string;
 }
 
 // Mock data for initial test cases
